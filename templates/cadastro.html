@@ -6,6 +6,13 @@
     <title>Cadastro</title>
 </head>
 <body>
+
+    {% for categoria, mensagem in get_flashed_messages(with_categories=True) %}
+    <div class="alert {{ categoria }}">
+        {{ mensagem }}
+    </div>
+    {% endfor %}
+
     <form action="/cadastro" method="POST">
         <input type="text" name="nome" placeholder="nome"> <br>
         <input type="password" name="senha" placeholder="senha"> <br>

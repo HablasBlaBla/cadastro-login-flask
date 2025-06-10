@@ -51,7 +51,7 @@ def cadastro():
         finally:
             print('\n')
                 
-        print(f'{nome}, {senhaCriptografada}')
+        # print(f'{nome}, {senhaCriptografada}')
     return render_template('cadastro.html')
 
 if __name__ == '__main__':

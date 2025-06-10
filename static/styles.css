@@ -1,0 +1,79 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial;
+    background-color: rgb(49, 122, 67);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.formulario {
+    background-color: rgb(118, 179, 159);
+    width: auto;
+    height: auto;
+    display: flex;
+    border-radius: 5px;
+}
+
+.grupo-input,
+input {
+    padding: 10px;
+    font-size: 15px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+}
+
+input {
+    margin: 10px;
+}
+
+#nome:focus {
+    animation-name: animacaoPlaceholder;
+    animation-duration: 0.5s;
+    animation-timing-function: infinite;
+} #nome::placeholder {
+    color: rgb(118, 179, 159);
+    font-style: italic;
+}
+
+.botao-cadastrar {
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    font-size: 15px;
+}
+
+
+
+.alert, success {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    background-color: rgb(70, 179, 97);
+    width: auto;
+    height: auto;
+    padding: 20px;
+}
+
+
+
+@keyframes animacaoPlaceholder {
+    from {
+        
+    }
+
+    to {
+        transform: translateY(-2px);
+    }
+}

@@ -1,6 +1,7 @@
-from flask import Flask, render_template, url_for, request, flash
+from flask import Flask, render_template, url_for, request, flash, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
+import time
 
 
 app = Flask(__name__)   
@@ -22,10 +23,21 @@ class Usuario(db.Model):
         return f'Usuario {self.nome}'
 
 
+def criptografarSenha(senha):
+    senhaHash = bcrypt.generate_password_hash(senha)
+    return senhaHash
+def verificarSenhaCriptografada():
+    senhaVerificada = bcrypt.check_password_hash(criptografarSenha)
+    return senhaVerificada
+
+
 # Rota inicial
 @app.route('/')
 def index():
     return render_template('index.html')
+@app.route('/home')
+def home():
+    return render_template('home.html')
 
 # Rota pra página de cadastro
 @app.route('/cadastro', methods=['GET', 'POST'])
@@ -34,15 +46,16 @@ def cadastro():
         nome = request.form['nome']
         senha = request.form['senha']
 
-        # MEU COMENTÁRIO (ALEF): criptografar a senha e mandar a senha criptografada no lugar da senha "crua" enviada pelo usuário
-        senhaCriptografada = bcrypt.generate_password_hash(senha) 
-        novo_usuario = Usuario(nome=nome, senha=senhaCriptografada)
+        # criptografar a senha e mandar a senha criptografada no lugar da senha "crua" enviada pelo usuário
+        # senhaCriptografada = bcrypt.generate_password_hash(criptografarSenha(senha))
+        novo_usuario = Usuario(nome=nome, senha=criptografarSenha(senha))
         
-        # MEU COMENTÁRIO (ALEF): fiz uma tratativa de erro pra se der merda não mostre as mensagens de erro normais
+        # fiz uma tratativa de erro pra se der merda não mostre as mensagens de erro normais
+        
         try:
             db.session.add(novo_usuario)
             db.session.commit()
-            # MEU COMENTÁRIO (ALEF): adicionei o método flash pra armazenar as mensagens de sucesso ou erro pra mostrar pro usuário quando precisar
+            # adicionei o método flash pra armazenar as mensagens de sucesso ou erro pra mostrar pro usuário quando precisar
             flash('Dados registrados!', 'success')
             return render_template('cadastro.html')
         except Exception as e:
@@ -52,10 +65,29 @@ def cadastro():
             print('\n')
                 
         print(f'{nome}, {senhaCriptografada}')
+        return senhaCriptografada
     return render_template('cadastro.html')
+
+@app.route('/entrar', methods=['GET', 'POST'])
+def entrar():
+    try:
+        if request.method == 'POST':
+            nome = request.form.get('nome')
+            senha = request.form.get('senha')
+            
+            usuario = Usuario.query.filter_by(nome=nome).first()
+            
+            if usuario and bcrypt.check_password_hash(usuario.senha, senha):
+                flash('Redirecionando em 5 segundos...', 'success')
+                time.sleep(5)
+                return redirect('/home')
+    except Exception as e:
+        flash(f'Erro ao logar ::::::::: {e}')
+        
+    return render_template('entrar.html')
 
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-        print('Banco de dados criado!')
+        # print('Banco de dados criado!')
     app.run(debug=True)

@@ -102,6 +102,10 @@ def entrar():
 def sair():
     session.pop('nome', None)
     return redirect(url_for('entrar'))
+@app.route('/cabecalho')
+def cabecalho():
+    return render_template('outros/cabecalho.html')
+
 
 if __name__ == '__main__':
     with app.app_context():

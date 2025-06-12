@@ -1,0 +1,35 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.cabecalho {
+  width: 100%;
+  height: auto;
+  padding: 10px;
+  background-color: aquamarine;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.img-perfil {
+    width: 50px; height: 50px;
+    background-color: aqua;
+}
+
+.links {
+  display: flex;
+  justify-content: center;
+}
+
+.link {
+  text-decoration: none;
+  transition: ease-in-out 0.3s;
+}
+
+.link:hover {
+  width: auto;
+  height: auto;
+  background-color: rgb(4, 141, 95);
+  padding: 5px;
+  border-radius: 5px;
+}

@@ -3,49 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="{{url_for('static', filename='spinner.css')}}"
-    />
     <title>Entrar</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='spinner.css') }}" />
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   </head>
   <body>
-    <div class="loading" id="loading-spinner" style="display: none;">
-      <div class="loading-wide">
-        <div class="l1 color"></div>
-        <div class="l2 color"></div>
-        <div class="e1 color animation-effect-light"></div>
-        <div class="e2 color animation-effect-light-d"></div>
-        <div class="e3 animation-effect-rot">X</div>
-        <div class="e4 color animation-effect-light"></div>
-        <div class="e5 color animation-effect-light-d"></div>
-        <div class="e6 animation-effect-scale">*</div>
-        <div class="e7 color"></div>
-        <div class="e8 color"></div>
-      </div>
-    </div>
+    <div id="loading-spinner" style="display: none;"></div>
 
-    <form action="/entrar" method="POST" id="loginForm">
-      <div class="aviso">
-        {% for categoria, mensagem in get_flashed_messages(with_categories=True)
-        %}
-        <div class="alert {{ categoria }}">{{ mensagem }}</div>
-        {% endfor %}
-      </div>
-      <input type="text" name="nome" placeholder="nome" /> <br />
-      <input type="password" name="senha" placeholder="senha" /> <br />
-      <button type="submit" id="botaoEntrar">Entrar</button>
-    </form>
+    <div id="root"></div>
 
-    <script>
-      const form = document.getElementById('loginForm');
-      const spinner = document.getElementById('loading-spinner');
-    //   const btn = document.getElementById("btnLogin");
-
-      form.addEventListener('submit', () => {
-        spinner.style.display = 'none';
-        spinner.style.display = 'flex';
-      });
+    <script type="text/babel" src="{{ url_for('static', filename='js/LoginForm.jsx') }}"></script>
+    <script type="text/babel">
+      const root = ReactDOM.createRoot(document.getElementById('root'));
+      root.render(<LoginForm />);
     </script>
   </body>
 </html>

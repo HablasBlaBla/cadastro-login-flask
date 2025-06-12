@@ -77,25 +77,31 @@ def cadastro():
         # print(f'{nome}, {senhaCriptografada}')
     return render_template('cadastro.html')
 
+from flask import jsonify
+
 @app.route('/entrar', methods=['GET', 'POST'])
 def entrar():
     try:
         if request.method == 'POST':
-            nome = request.form.get('nome')
-            senha = request.form.get('senha')
-            
-            session['nome'] = request.form['nome']
-            return redirect(url_for('home'))
-            
+            # Check if request is JSON or form
+            if request.is_json:
+                data = request.get_json()
+                nome = data.get('nome')
+                senha = data.get('senha')
+            else:
+                nome = request.form.get('nome')
+                senha = request.form.get('senha')
+
             usuario = Usuario.query.filter_by(nome=nome).first()
-            
+
             if usuario and bcrypt.check_password_hash(usuario.senha, senha):
-                flash('Redirecionando em 5 segundos...', 'success')
-                time.sleep(5)
-                return redirect('/home')
+                session['nome'] = nome
+                return jsonify({'success': True, 'message': 'Login successful'})
+            else:
+                return jsonify({'success': False, 'message': 'Invalid username or password'}), 401
     except Exception as e:
-        flash(f'Erro ao logar ::::::::: {e}')
-        
+        return jsonify({'success': False, 'message': f'Erro ao logar: {e}'}), 500
+
     return render_template('entrar.html')
 
 @app.route('/sair')

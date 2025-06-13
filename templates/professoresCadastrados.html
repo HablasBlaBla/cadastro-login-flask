@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Professores Cadastrados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .professor {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .professor h3 {
+            margin: 0 0 5px 0;
+        }
+        .professor p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Professores Cadastrados</h1>
+    {% if professores %}
+        {% for professor in professores %}
+            <div class="professor">
+                <h3>{{ professor.nome }}</h3>
+                <p><strong>Email:</strong> {{ professor.email }}</p>
+                <p><strong>CPF:</strong> {{ professor.cpf }}</p>
+                <p><strong>Data de Cadastro:</strong> {{ professor.data_cadastro.strftime('%d/%m/%Y %H:%M:%S') if professor.data_cadastro else 'N/A' }}</p>
+                <p><strong>Último Login:</strong> {{ professor.ultimo_login.strftime('%d/%m/%Y %H:%M:%S') if professor.ultimo_login else 'N/A' }}</p>
+                <p><strong>Ativo:</strong> {{ 'Sim' if professor.ativo else 'Não' }}</p>
+                <p><strong>Admin:</strong> {{ 'Sim' if professor.admin else 'Não' }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Nenhum professor cadastrado no sistema.</p>
+    {% endif %}
+</body>
+</html>

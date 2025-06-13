@@ -6,19 +6,26 @@
     <title>Entrar</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='spinner.css') }}" />
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   </head>
   <body>
-    <div id="loading-spinner" style="display: none;"></div>
+    <div class="login-container">
+      <h1>Login do Professor</h1>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="message {{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+      <form method="POST" action="{{ url_for('entrar') }}">
+        <label for="login">Email ou CPF:</label>
+        <input type="text" id="login" name="login" required />
 
-    <div id="root"></div>
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="senha" required />
 
-    <script type="text/babel" src="{{ url_for('static', filename='js/LoginForm.jsx') }}"></script>
-    <script type="text/babel">
-      const root = ReactDOM.createRoot(document.getElementById('root'));
-      root.render(<LoginForm />);
-    </script>
+        <button type="submit">Entrar</button>
+      </form>
+    </div>
   </body>
 </html>

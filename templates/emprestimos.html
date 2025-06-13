@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Empréstimos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        button {
+            padding: 5px 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .devolvido {
+            color: green;
+            font-weight: bold;
+        }
+        .nao-devolvido {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Empréstimos</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="message {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    {% if emprestimos %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Aluno</th>
+                    <th>Série</th>
+                    <th>Livro</th>
+                    <th>ISBN</th>
+                    <th>Data Empréstimo</th>
+                    <th>Data Devolução</th>
+                    <th>Status</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for emprestimo in emprestimos %}
+                <tr>
+                    <td>{{ emprestimo.aluno.nome if emprestimo.aluno else 'N/A' }}</td>
+                    <td>{{ emprestimo.aluno.serie if emprestimo.aluno else 'N/A' }}</td>
+                    <td>{{ emprestimo.livro.titulo if emprestimo.livro else 'N/A' }}</td>
+                    <td>{{ emprestimo.livro.isbn if emprestimo.livro else 'N/A' }}</td>
+                    <td>{{ emprestimo.data_emprestimo.strftime('%d/%m/%Y') if emprestimo.data_emprestimo else 'N/A' }}</td>
+                    <td>{{ emprestimo.data_devolucao.strftime('%d/%m/%Y') if emprestimo.data_devolucao else 'N/A' }}</td>
+                    <td>
+                        {% if emprestimo.devolvido.lower() == 'sim' %}
+                            <span class="devolvido">Devolvido</span>
+                        {% else %}
+                            <span class="nao-devolvido">Não devolvido</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if emprestimo.devolvido.lower() != 'sim' %}
+                        <form method="POST" action="{{ url_for('devolver_emprestimo', emprestimo_id=emprestimo.id) }}">
+                            <button type="submit">Devolver</button>
+                        </form>
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Nenhum empréstimo cadastrado.</p>
+    {% endif %}
+</body>
+</html>

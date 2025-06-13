@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livros Cadastrados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .livro {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .livro img {
+            max-height: 100px;
+            margin-right: 15px;
+        }
+        .livro-info {
+            max-width: 600px;
+        }
+        .livro-info h3 {
+            margin: 0 0 5px 0;
+        }
+        .livro-info p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Livros Cadastrados no Sistema</h1>
+    {% if livros %}
+        {% for livro in livros %}
+            <div class="livro">
+                {% if livro.capa_url %}
+                    <img src="{{ livro.capa_url }}" alt="Capa do livro">
+                {% endif %}
+                <div class="livro-info">
+                    <h3>{{ livro.titulo }}</h3>
+                    <p><strong>Autor:</strong> {{ livro.autor }}</p>
+                    <p><strong>ISBN:</strong> {{ livro.isbn }}</p>
+                    <p><strong>Publicado em:</strong> {{ livro.ano_publicacao }}</p>
+                    <p><strong>Categoria:</strong> {{ livro.categoria if livro.categoria else 'N/A' }}</p>
+                    <p><strong>Gênero:</strong> {{ livro.genero }}</p>
+                    <p><strong>Quantidade:</strong> {{ livro.quantidade }}</p>
+                    <p>{{ livro.descricao }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Nenhum livro cadastrado no sistema.</p>
+    {% endif %}
+</body>
+</html>

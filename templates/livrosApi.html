@@ -3,9 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Pesquisa de Livros - Google Books API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        .livro {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .livro img {
+            max-height: 100px;
+            margin-right: 15px;
+        }
+        .livro-info {
+            max-width: 600px;
+        }
+        .livro-info h3 {
+            margin: 0 0 5px 0;
+        }
+        .livro-info p {
+            margin: 0;
+        }
+        .add-button {
+            margin-left: auto;
+        }
+    </style>
 </head>
 <body>
-    
+    <h1>Pesquisa de Livros - Google Books API</h1>
+    <form method="POST" action="{{ url_for('livros_api') }}">
+        <label for="titulo">Título do Livro:</label>
+        <input type="text" id="titulo" name="titulo" value="{{ query }}" required>
+        <button type="submit">Pesquisar</button>
+    </form>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="message {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% if query %}
+        <h2>Resultados para "{{ query }}":</h2>
+        {% if livros_api %}
+            <form method="POST" action="{{ url_for('livros_api') }}">
+                {% for livro in livros_api %}
+                    <div class="livro">
+                        <input type="checkbox" id="book_{{ livro.id }}" name="selected_books" value="{{ livro.id }}">
+                        {% if livro.volumeInfo.imageLinks and livro.volumeInfo.imageLinks.thumbnail %}
+                            <img src="{{ livro.volumeInfo.imageLinks.thumbnail }}" alt="Capa do livro">
+                        {% endif %}
+                        <div class="livro-info">
+                            <h3>{{ livro.volumeInfo.title }}</h3>
+                            <p><strong>Autores:</strong> {{ livro.volumeInfo.authors | join(', ') if livro.volumeInfo.authors else 'Desconhecido' }}</p>
+                            <p><strong>Publicado em:</strong> {{ livro.volumeInfo.publishedDate if livro.volumeInfo.publishedDate else 'Desconhecido' }}</p>
+                            <p>{{ livro.volumeInfo.description[:200] + '...' if livro.volumeInfo.description else '' }}</p>
+                        </div>
+                        <input type="hidden" name="book_data_{{ livro.id }}" value='{{ {
+                            "titulo": livro.volumeInfo.title,
+                            "autor": livro.volumeInfo.authors | join(", ") if livro.volumeInfo.authors else "",
+                            "isbn": livro.volumeInfo.industryIdentifiers[0].identifier if livro.volumeInfo.industryIdentifiers else "",
+                            "capa_url": livro.volumeInfo.imageLinks.thumbnail if livro.volumeInfo.imageLinks and livro.volumeInfo.imageLinks.thumbnail else "",
+                            "descricao": livro.volumeInfo.description if livro.volumeInfo.description else "",
+                            "categoria": livro.volumeInfo.categories[0] if livro.volumeInfo.categories else "",
+                            "ano_publicacao": livro.volumeInfo.publishedDate[:4] if livro.volumeInfo.publishedDate else "",
+                            "genero": livro.volumeInfo.categories[0] if livro.volumeInfo.categories else ""
+                        }|tojson }}'>
+                    </div>
+                {% endfor %}
+                <button type="submit" class="add-button">Adicionar livros selecionados</button>
+            </form>
+        {% else %}
+            <p>Nenhum livro encontrado para este título.</p>
+        {% endif %}
+    {% endif %}
 </body>
 </html>

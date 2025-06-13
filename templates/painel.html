@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
+    <title>Página do usuário depois do login ser confirmado</title>
+</head>
+<style>
+    a {
+        text-decoration: none;
+    }
+</style>
+<body>
+    <div style="text-decoration: none;">
+        <h1>Painel do Professor</h1>
+        <a href="/livrosApi">Buscar e cadastrar livros</a> <br>
+        <a href="/cadastroProfessor">Cadatrar Professor</a> <br>
+        <a href="/cadastroAluno">Cadastrar novo aluno</a> <br>
+        <a href="/alunosCadastrados">Alunos cadastrados</a> <br>
+        <a href="/livrosCadastrados">Livros cadastrados</a> <br>
+        <a href="/cadastroEmprestimo">Cadastrar empréstimo</a> <br>
+        <a href="emprestimos">Empréstimos cadastrados</a> <br>
+        <a href="/professoresCadastrados">Professores cadastrados</a>
+    </div>
+    <form action="/sair"> <br>
+        <button type="submit">Sair</button>
+    </form>
+</body>
+</html>

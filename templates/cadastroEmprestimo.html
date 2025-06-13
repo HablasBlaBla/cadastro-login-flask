@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cadastro de Empréstimo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        form {
+            max-width: 500px;
+            margin: auto;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+        }
+        input[type="text"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            max-width: 500px;
+            margin: 10px auto;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cadastro de Empréstimo</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="message {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    <form method="POST" action="{{ url_for('cadastro_emprestimo') }}">
+        <label for="aluno_id">Nome do Aluno:</label>
+        <select id="aluno_id" name="aluno_id" required>
+            <option value="">Selecione o aluno</option>
+            {% for aluno in alunos %}
+                <option value="{{ aluno.id }}">{{ aluno.nome }} - Série: {{ aluno.serie }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="livro_id">Título ou ISBN do Livro:</label>
+        <select id="livro_id" name="livro_id" required>
+            <option value="">Selecione o livro</option>
+            {% for livro in livros %}
+                <option value="{{ livro.id }}">{{ livro.titulo }} - ISBN: {{ livro.isbn }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="data_emprestimo">Data do Empréstimo:</label>
+        <input type="date" id="data_emprestimo" name="data_emprestimo" required>
+
+        <label for="data_devolucao">Data de Devolução:</label>
+        <input type="date" id="data_devolucao" name="data_devolucao">
+
+        <button type="submit">Cadastrar Empréstimo</button>
+    </form>
+</body>
+</html>

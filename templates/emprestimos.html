@@ -4,43 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Empréstimos</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ccc;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        button {
-            padding: 5px 10px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 3px;
-        }
-        button:hover {
-            background-color: #218838;
-        }
-        .devolvido {
-            color: green;
-            font-weight: bold;
-        }
-        .nao-devolvido {
-            color: red;
-            font-weight: bold;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/formsAndTables.css') }}">
 </head>
 <body>
     <h1>Empréstimos</h1>

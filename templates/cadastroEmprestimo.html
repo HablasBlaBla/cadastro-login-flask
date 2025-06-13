@@ -4,53 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Cadastro de Empréstimo</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        form {
-            max-width: 500px;
-            margin: auto;
-        }
-        label {
-            display: block;
-            margin-top: 15px;
-        }
-        input[type="text"],
-        input[type="date"],
-        select {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            box-sizing: border-box;
-        }
-        button {
-            margin-top: 20px;
-            padding: 10px 15px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .message {
-            max-width: 500px;
-            margin: 10px auto;
-            padding: 10px;
-            border-radius: 4px;
-        }
-        .success {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        .error {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/formsAndTables.css') }}">
 </head>
 <body>
     <h1>Cadastro de Empréstimo</h1>

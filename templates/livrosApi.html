@@ -4,38 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pesquisa de Livros - Google Books API</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        form {
-            margin-bottom: 20px;
-        }
-        .livro {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-        }
-        .livro img {
-            max-height: 100px;
-            margin-right: 15px;
-        }
-        .livro-info {
-            max-width: 600px;
-        }
-        .livro-info h3 {
-            margin: 0 0 5px 0;
-        }
-        .livro-info p {
-            margin: 0;
-        }
-        .add-button {
-            margin-left: auto;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/livrosApi.css') }}">
 </head>
 <body>
     <h1>Pesquisa de Livros - Google Books API</h1>
